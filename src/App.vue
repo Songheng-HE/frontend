@@ -55,6 +55,26 @@
       <PlayerTroopSearch @close="showPlayerTroopSearch = false" />
     </div>
 
+    <!-- Battle Field Data Button -->
+    <div class="battle-field-data-button" v-if="loggedInUser">
+      <button @click="showBattleFieldData = true">Battle Field Data</button>
+    </div>
+
+    <!-- Battle Field Data -->
+    <div v-if="showBattleFieldData" class="battle-field-data-container">
+      <BattleFieldData @close="showBattleFieldData = false" />
+    </div>
+
+    <!-- Troop Usage Button -->
+    <div class="troop-usage-button" v-if="loggedInUser">
+      <button @click="showTroopUsage = true">Troop Usage</button>
+    </div>
+
+    <!-- Troop Usage -->
+    <div v-if="showTroopUsage" class="troop-usage-container">
+      <TroopUsage @close="showTroopUsage = false" />
+    </div>
+
     <!-- 登录表单 -->
     <div v-if="showLogin">
       <UserLogin @close="showLogin = false" @login-success="handleLoginSuccess" />
@@ -64,12 +84,16 @@
 
 
 
+
+
 <script>
 import BindPlayer from './components/BindPlayer.vue';
 import UserLogin from './components/Login.vue';
 import TeamMeritRank from './components/TeamMeritRank.vue'; // 导入团队战功排行榜组件
 import PersonalTroops from './components/PersonalTroops.vue'; // 导入个人部队组件
 import PlayerTroopSearch from './components/PlayerTroopSearch.vue'; // 导入玩家部队查询组件
+import BattleFieldData from './components/BattleFieldData.vue'; // 导入战场数据考勤组件
+import TroopUsage from './components/TroopUsage.vue'; // 导入部队排行榜组件
 
 export default {
   name: 'App',
@@ -79,6 +103,8 @@ export default {
     TeamMeritRank, // 注册团队战功排行榜组件
     PersonalTroops, // 注册个人部队组件
     PlayerTroopSearch, // 注册玩家部队查询组件
+    BattleFieldData, // 注册战场数据考勤组件
+    TroopUsage, // 注册部队排行榜组件
   },
   data() {
     return {
@@ -87,6 +113,8 @@ export default {
       showPersonalTroops: false, // 控制个人部队信息的显示状态
       showTeamMeritRank: false, // 控制团队战功排行榜的显示状态
       showPlayerTroopSearch: false, // 控制玩家部队查询的显示状态
+      showBattleFieldData: false, // 控制战场数据考勤的显示状态
+      showTroopUsage: false, // 控制部队排行榜的显示状态
       loggedInUser: null, // 当前登录用户的用户名
     };
   },
@@ -114,6 +142,14 @@ export default {
       // 切换玩家部队查询的显示状态
       this.showPlayerTroopSearch = !this.showPlayerTroopSearch;
     },
+    toggleBattleFieldData() {
+      // 切换战场数据考勤显示状态
+      this.showBattleFieldData = !this.showBattleFieldData;
+    },
+    toggleTroopUsage() {
+      // 切换部队排行榜显示状态
+      this.showTroopUsage = !this.showTroopUsage;
+    },
   },
   mounted() {
     // 页面刷新后恢复登录状态
@@ -124,6 +160,7 @@ export default {
   },
 };
 </script>
+
 
 
 
@@ -336,5 +373,206 @@ button {
 
 .player-troop-search-container .troop-list li span {
   font-weight: bold;
+}
+
+/* Battle Field Data 按钮样式 */
+.battle-field-data-button {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.battle-field-data-button button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.battle-field-data-button button:hover {
+  background-color: #0056b3;
+}
+
+/* Battle Field Data 容器样式 */
+.battle-field-data-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.battle-field-data-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.battle-field-data-container select {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 14px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.battle-field-data-container button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.battle-field-data-container button:first-of-type {
+  background-color: #28a745;
+  color: white;
+}
+
+.battle-field-data-container button:first-of-type:hover {
+  background-color: #218838;
+}
+
+.battle-field-data-container button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+.battle-field-data-container button:last-of-type:hover {
+  background-color: #c82333;
+}
+
+/* 表格样式 */
+.battle-field-data-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.battle-field-data-container table th,
+.battle-field-data-container table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.battle-field-data-container table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.battle-field-data-container table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 错误提示信息样式 */
+.battle-field-data-container .error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+/* Troop Usage 按钮样式 */
+.troop-usage-button {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.troop-usage-button button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.troop-usage-button button:hover {
+  background-color: #0056b3;
+}
+
+/* Troop Usage 容器样式 */
+.troop-usage-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.troop-usage-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 按钮组样式 */
+.troop-usage-container .button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.troop-usage-container .button-group button {
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.troop-usage-container .button-group button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* 排行榜表格样式 */
+.troop-usage-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.troop-usage-container table th,
+.troop-usage-container table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.troop-usage-container table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.troop-usage-container table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 错误提示信息样式 */
+.troop-usage-container .error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Loading 状态样式 */
+.troop-usage-container .loading {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
 }
 </style>

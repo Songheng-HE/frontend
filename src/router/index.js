@@ -6,6 +6,8 @@ import UserLogin from '../components/Login.vue';
 import TeamMeritRank from '../components/TeamMeritRank.vue';
 import PersonalTroops from '../components/PersonalTroops.vue';
 import PlayerTroopSearch from '../components/PlayerTroopSearch.vue';
+import BattleFieldData from '../components/BattleFieldData.vue';
+import TroopUsage from '../components/TroopUsage.vue';
 
 const routes = [
   {
@@ -45,6 +47,16 @@ const routes = [
     path: '/player-troop-search', // 玩家部队查询
     name: 'PlayerTroopSearch',
     component: PlayerTroopSearch, // 新增的组件路由
+  },
+  {
+    path: '/battle-field-data',
+    name: 'BattleFieldData',
+    component: BattleFieldData,
+  },
+  {
+    path: '/troop-usage',
+    name: 'TroopUsage',
+    component: TroopUsage,
   }
 ];
 
